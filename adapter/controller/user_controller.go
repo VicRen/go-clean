@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/vicren/go-clean/adapter/model"
 	"github.com/vicren/go-clean/adapter/repository"
 	"github.com/vicren/go-clean/domain/interactor"
 )
@@ -12,9 +13,9 @@ type UserController interface {
 }
 
 func NewUserController(storage repository.Storage) UserController {
-	//ur := repository.NewUserRepository(storage)
+	ur := repository.NewUserRepository(storage)
 	return &userController{
-		userInteractor: interactor.NewUserInteractor(nil),
+		userInteractor: interactor.NewUserInteractor(ur),
 	}
 }
 
@@ -25,9 +26,9 @@ type userController struct {
 func (uc *userController) GetUsers(c Context) {
 	u, err := uc.userInteractor.List()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, nil)
+		c.JSON(http.StatusInternalServerError, NewError(http.StatusInternalServerError, err.Error()))
 		return
 	}
 
-	c.JSON(http.StatusOK, u)
+	c.JSON(http.StatusOK, model.ParseUsers(u))
 }
