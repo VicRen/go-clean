@@ -25,12 +25,5 @@ func (i *userInteractor) List() ([]entity.User, error) {
 	if i.userRepository == nil {
 		return nil, errors.New("invalid user repository")
 	}
-	return []entity.User{
-		{
-			ID:    1,
-			Name:  "string",
-			Email: "email",
-		},
-	}, nil
-	//return i.userRepository.FindAll()
+	return i.userRepository.FindAll()
 }

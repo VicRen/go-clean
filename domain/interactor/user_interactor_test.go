@@ -7,17 +7,17 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/vicren/go-clean/domain/entity"
-	mock "github.com/vicren/go-clean/domain/repository/mocks"
+	repository "github.com/vicren/go-clean/domain/repository/mocks"
 )
 
 var (
-	mockUserRepository *mock.MockUserRepository
+	mockUserRepository *repository.MockUserRepository
 	userInstance       UserInteractor
 )
 
 func setupTestUserInteractor(t *testing.T) func(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	mockUserRepository = mock.NewMockUserRepository(ctrl)
+	mockUserRepository = repository.NewMockUserRepository(ctrl)
 	userInstance = NewUserInteractor(mockUserRepository)
 	return func(t *testing.T) {
 		mockUserRepository = nil
@@ -60,7 +60,6 @@ func Test_userInteractor_List(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			tearDown := setupTestUserInteractor(t)
 			mockUserRepository.EXPECT().FindAll().Return(tc.want, tc.wantErr)
-
 			got, err := userInstance.List()
 			if !reflect.DeepEqual(err, tc.wantErr) {
 				t.Errorf("userInteractor.List() error = %v, wantErr %v", err, tc.wantErr)
