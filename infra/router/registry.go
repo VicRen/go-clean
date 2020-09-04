@@ -1,4 +1,4 @@
-package registry
+package router
 
 import (
 	"fmt"
@@ -17,4 +17,11 @@ func RegisterBindFunc(version string, bindFunc BindFunc) error {
 	}
 	bindFuncRegistry[version] = bindFunc
 	return nil
+}
+
+func GetBindFunc(version string) (BindFunc, error) {
+	if f, found := bindFuncRegistry[version]; found {
+		return f, nil
+	}
+	return nil, fmt.Errorf("bind function not found for %s", version)
 }

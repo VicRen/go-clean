@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/vicren/go-clean/adapter/controller"
 	"github.com/vicren/go-clean/common"
-	"github.com/vicren/go-clean/registry"
+	"github.com/vicren/go-clean/infra/router"
 )
 
 func Bind(router *gin.Engine, c *controller.AppController) {
@@ -15,5 +15,5 @@ func Bind(router *gin.Engine, c *controller.AppController) {
 }
 
 func init() {
-	common.Must(registry.RegisterBindFunc("v1", Bind))
+	common.Must(router.RegisterBindFunc("v1", Bind))
 }

@@ -3,13 +3,12 @@ api:
   version: v1
 server:
   address: 0.0.0.0:8080
-storage:
+user:
   tag: memory
   memorysettings:
-    users:
-      - id: 1
-        name: testing
-        email: testing@testing.com
+    - id: 1
+      name: testing
+      email: testing@testing.com
   sqlsettings:
     host: mysql
     port: 3306
