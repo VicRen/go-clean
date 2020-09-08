@@ -1,19 +1,23 @@
 package memory
 
 import (
+	"github.com/google/wire"
 	"github.com/vicren/go-clean/domain/entity"
+	"github.com/vicren/go-clean/domain/repository"
 )
 
-func NewUserRepository(users []entity.User) *UserRepository {
-	return &UserRepository{
+func NewUserRepository(users []entity.User) *userRepository {
+	return &userRepository{
 		Users: users,
 	}
 }
 
-type UserRepository struct {
+type userRepository struct {
 	Users []entity.User
 }
 
-func (r *UserRepository) FindAll() ([]entity.User, error) {
+func (r *userRepository) FindAll() ([]entity.User, error) {
 	return r.Users, nil
 }
+
+var RepoSet = wire.NewSet(NewUserRepository, wire.Bind(new(repository.UserRepository), new(*userRepository)))

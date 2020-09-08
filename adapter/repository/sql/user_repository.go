@@ -7,15 +7,15 @@ import (
 	"github.com/vicren/go-clean/domain/entity"
 )
 
-func NewUserRepository(conn *sql.DB) *UserRepository {
-	return &UserRepository{Conn: conn}
+func NewUserRepository(conn *sql.DB) *userRepository {
+	return &userRepository{Conn: conn}
 }
 
-type UserRepository struct {
+type userRepository struct {
 	Conn *sql.DB
 }
 
-func (r *UserRepository) FindAll() ([]entity.User, error) {
+func (r *userRepository) FindAll() ([]entity.User, error) {
 	query := `SELECT id,name,email FROM user`
 	users, err := r.fetch(context.Background(), query, nil)
 	if err != nil {
@@ -24,7 +24,7 @@ func (r *UserRepository) FindAll() ([]entity.User, error) {
 	return users, nil
 }
 
-func (r *UserRepository) fetch(ctx context.Context, query string, args ...interface{}) (result []entity.User, err error) {
+func (r *userRepository) fetch(ctx context.Context, query string, args ...interface{}) (result []entity.User, err error) {
 	rows, err := r.Conn.QueryContext(ctx, query, args)
 	if err != nil {
 		return nil, err

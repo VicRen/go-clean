@@ -2,16 +2,15 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/vicren/go-clean/adapter/controller"
-	"github.com/vicren/go-clean/adapter/repository/memory"
 	"github.com/vicren/go-clean/domain/entity"
 	v1 "github.com/vicren/go-clean/infra/router/v1"
+	"github.com/vicren/go-clean/injector"
 )
 
 func main() {
 	r := gin.Default()
 
-	uc := controller.NewUserController(memory.NewUserRepository([]entity.User{
+	users := []entity.User{
 		{
 			ID:    1,
 			Name:  "testing",
@@ -22,10 +21,19 @@ func main() {
 			Name:  "testing2",
 			Email: "testing2@testing.com",
 		},
-	}))
-	ac := &controller.AppController{
-		User: uc,
+		{
+			ID:    3,
+			Name:  "testing3",
+			Email: "testing3@testing.com",
+		},
 	}
+
+	//uc := controller.NewUserController(memory.NewUserRepository(users))
+	//ac := &controller.AppController{
+	//	User: uc,
+	//}
+
+	ac := injector.InitMemoryEngine(users)
 
 	v1.Bind(r, ac)
 

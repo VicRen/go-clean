@@ -3,6 +3,7 @@ package interactor
 import (
 	"errors"
 
+	"github.com/google/wire"
 	"github.com/vicren/go-clean/domain/entity"
 	"github.com/vicren/go-clean/domain/repository"
 )
@@ -11,7 +12,7 @@ type UserInteractor interface {
 	List() ([]entity.User, error)
 }
 
-func NewUserInteractor(userRepository repository.UserRepository) UserInteractor {
+func NewUserInteractor(userRepository repository.UserRepository) *userInteractor {
 	return &userInteractor{
 		userRepository: userRepository,
 	}
@@ -27,3 +28,5 @@ func (i *userInteractor) List() ([]entity.User, error) {
 	}
 	return i.userRepository.FindAll()
 }
+
+var UserSet = wire.NewSet(NewUserInteractor, wire.Bind(new(UserInteractor), new(*userInteractor)))

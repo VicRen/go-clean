@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 
+	"github.com/google/wire"
 	"github.com/vicren/go-clean/domain/entity"
-
 	"github.com/vicren/go-clean/domain/interactor"
 	"github.com/vicren/go-clean/domain/repository"
 )
@@ -13,7 +13,7 @@ type UserController interface {
 	GetUsers(c Context)
 }
 
-func NewUserController(userRepository repository.UserRepository) UserController {
+func NewUserController(userRepository repository.UserRepository) *userController {
 	return &userController{
 		userInteractor: interactor.NewUserInteractor(userRepository),
 	}
@@ -66,3 +66,5 @@ func ParseUsers(users []entity.User) []*RespUser {
 	}
 	return ret
 }
+
+var UserSet = wire.NewSet(NewUserController, wire.Bind(new(UserController), new(*userController)))
