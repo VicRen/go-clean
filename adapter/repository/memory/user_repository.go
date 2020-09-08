@@ -2,19 +2,18 @@ package memory
 
 import (
 	"github.com/vicren/go-clean/domain/entity"
-	"github.com/vicren/go-clean/domain/repository"
 )
 
-func NewUserRepository(users []entity.User) repository.UserRepository {
-	return &userRepository{
+func NewUserRepository(users []entity.User) *UserRepository {
+	return &UserRepository{
 		Users: users,
 	}
 }
 
-type userRepository struct {
+type UserRepository struct {
 	Users []entity.User
 }
 
-func (r *userRepository) FindAll() ([]entity.User, error) {
+func (r *UserRepository) FindAll() ([]entity.User, error) {
 	return r.Users, nil
 }
