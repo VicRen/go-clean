@@ -4,7 +4,7 @@ type AppController struct {
 	User interface{ UserController }
 }
 
-func ProvideAppController(user UserController) *AppController {
+func NewAppController(user UserController) *AppController {
 	return &AppController{
 		User: user,
 	}

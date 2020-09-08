@@ -20,4 +20,4 @@ func (r *userRepository) FindAll() ([]entity.User, error) {
 	return r.Users, nil
 }
 
-var RepoSet = wire.NewSet(NewUserRepository, wire.Bind(new(repository.UserRepository), new(*userRepository)))
+var Provider = wire.NewSet(NewUserRepository, wire.Bind(new(repository.UserRepository), new(*userRepository)))

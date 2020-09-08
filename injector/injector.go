@@ -8,12 +8,11 @@ import (
 	"github.com/vicren/go-clean/adapter/controller"
 	"github.com/vicren/go-clean/adapter/repository/memory"
 	"github.com/vicren/go-clean/domain/entity"
-	"github.com/vicren/go-clean/domain/interactor"
 )
 
-var MemoryStorageSet = wire.NewSet(controller.ProvideAppController, controller.UserSet, interactor.UserSet, memory.RepoSet)
+var MemoryProvider = wire.NewSet(controller.NewAppController, controller.UserProvider, memory.Provider)
 
 func InitMemoryEngine(Users []entity.User) *controller.AppController {
-	wire.Build(MemoryStorageSet)
+	wire.Build(MemoryProvider)
 	return nil
 }

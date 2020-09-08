@@ -67,4 +67,9 @@ func ParseUsers(users []entity.User) []*RespUser {
 	return ret
 }
 
-var UserSet = wire.NewSet(NewUserController, wire.Bind(new(UserController), new(*userController)))
+var UserProvider = wire.NewSet(
+	NewUserController,
+	wire.Bind(new(UserController), new(*userController)),
+	interactor.NewUserInteractor,
+	wire.Bind(new(interactor.UserInteractor), new(*interactor.UserUseCase)),
+)

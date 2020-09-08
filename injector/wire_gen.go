@@ -10,7 +10,6 @@ import (
 	"github.com/vicren/go-clean/adapter/controller"
 	"github.com/vicren/go-clean/adapter/repository/memory"
 	"github.com/vicren/go-clean/domain/entity"
-	"github.com/vicren/go-clean/domain/interactor"
 )
 
 // Injectors from injector.go:
@@ -18,10 +17,10 @@ import (
 func InitMemoryEngine(Users []entity.User) *controller.AppController {
 	userRepository := memory.NewUserRepository(Users)
 	userController := controller.NewUserController(userRepository)
-	appController := controller.ProvideAppController(userController)
+	appController := controller.NewAppController(userController)
 	return appController
 }
 
 // injector.go:
 
-var MemoryStorageSet = wire.NewSet(controller.ProvideAppController, controller.UserSet, interactor.UserSet, memory.RepoSet)
+var MemoryProvider = wire.NewSet(controller.NewAppController, controller.UserProvider, memory.Provider)
