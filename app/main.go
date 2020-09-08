@@ -28,11 +28,6 @@ func main() {
 		},
 	}
 
-	//uc := controller.NewUserController(memory.NewUserRepository(users))
-	//ac := &controller.AppController{
-	//	User: uc,
-	//}
-
 	ac := injector.InitMemoryEngine(users)
 
 	v1.Bind(r, ac)
